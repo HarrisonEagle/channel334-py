@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+        <head>
+                <meta charset="utf-8">
+                <title>Welcome to Channel334</title>
+                <link rel="stylesheet" href="{{ url_for('static', filename='stylesheet.css') }}">
+                <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+                <meta name="viewport" content="width=device-width, initial-scale=1" />
+                <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
+        </head>
+
+        <div class="header">
+                <div class="header-list">
+                        <ul>
+                                <form method="POST" action="/"><li><button class="button1" align="center" type="type" value="main">Channel334</button></li></form>
+                                <form method="POST" action="/logout"><li><button class="button1" align="center" type="type" value="Log Out">ログアウト</button></li></form>
+                                <form method="POST" action="/gomypage"><li><button class="button1" align="center"type="type" name="mypage" value="mypage">{{username}}</button></li></form>
+                                <form method="POST>" action="/gonotifications"><li><button class="button1" align="center" type="type" name="mypage" value="notifications">通知({{notifynum}})</button></li></form>
+                                <form method="POST" action="/searchall">
+                                   <div class="cp_iptxt">
+                                                <label class="ef">
+                                                <li><input  class="un " type="text" name="search" placeholder="キーワードで検索"></li>
+                                                <li><button class="button1" align="center" type="text" name="submit">検索</button></li>
+                                        </label>
+                                   
+                                </div>
+                               </form>
+                        </ul>
+                </div>
+               
+        
+</div>
+<button class="button5" align="center" type="type" name="newtag" value="newtag">スレッドを立てる</button>
+    <p class="bigtitle" align="center">{{error}}</p>
+        <form method="post" action="/sendfirstcomment" enctype="multipart/form-data">
+            <input type="hidden" name="tagindex" value={{tagindex}}>
+            <p class="bigtitle" align="center">タイトル:</p><br>
+            <input class="inputtitle" type="text" align="center"  name="title"></textarea></p>
+            <p class="bigtitle" align="center"> コメント:</p><br>
+            <label class="container">匿名にする
+                <input align="center" type="checkbox" name="anonymous" value="1" checked="checked">
+                <span class="checkmark"></span>
+            </label>
+            
+            <textarea name="firstcomment" size = "50" rows="10"></textarea></p>
+            <div class="uploadButton">
+                    投稿する画像ファイルを選択してください
+                    <input align="center" type="file" id="img_file" name="img_file" class="col-sm-4" onchange="uv.style.display='inline-block'; uv.value = this.value;" >
+                    <input type="text" id="uv" class="uploadValue" disabled />
+
+            </div>
+            
+            <bl><button class = "button2" align="center" type="text" name="submit">投稿</button><bl>
+            
+        </form>
+</html>

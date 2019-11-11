@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ja">
+		<head>
+                <meta charset="utf-8">
+                <title>Log in</title>
+                <link rel="stylesheet" href="{{ url_for('static', filename='stylesheet.css') }}">
+                <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+                <meta name="viewport" content="width=device-width, initial-scale=1" />
+                <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
+            </head>
+	
+			<body>
+                    <div class="loginpage" > 
+							<p class="sign" align="center">新規登録</p>
+                           
+                                   <p align="center">{{error}}</p>
+                                   <div style="text-align:center">
+                                   <form method="POST" action="/register">
+                                    
+                                    <input class="input" type="text" name="username" align="center" placeholder="Username"/><br />
+                                    <br>
+                                    <input class="input" type="password" name="password" align="center" placeholder="Password"/><br />
+                                    <button class="button4" align="center" type="submit" value="Login">アカウント作成</button>
+                                   </form>
+                                   <br>
+                                </div>
+                                   <br><p align="center">Powered by exp_kawagoeshi</p>
+                               </body>
+                    </div>
+            </body>
+	
+</html>

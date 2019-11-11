@@ -1,0 +1,48 @@
+body {
+    font-family: "Avenir Next";
+  }
+  
+  /* list-styleプロパティを用いて、<li>要素の黒点を取り除いてください */
+  
+  .cp_iptxt {
+    position: relative;
+    width: 80%;
+    margin: 40px 3%;
+  }
+  .cp_iptxt input[type='text'] {
+    font: 15px/24px sans-serif;
+    box-sizing: border-box;
+    width: 100%;
+    padding: 0.3em;
+    transition: 0.3s;
+    letter-spacing: 1px;
+    color: #aaaaaa;
+    border: none;
+    border-bottom: 2px solid #1b2538;
+    background: transparent;
+  }
+  .ef input[type='text']:focus {
+    border-bottom: 2px solid #da3c41;
+    outline: none;
+  }
+  .header {
+    background-color: #f7f2b4;
+    height: 90px;
+    
+  }
+  
+  li{
+      list-style: none;
+  }
+  
+  .main {
+    background-color: #bdf7f1;
+    height: 600px;
+  }
+  
+  .footer {
+    background-color: #ceccf3;
+    height: 270px;
+  }
+
+ 

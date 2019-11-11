@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ja">
+        <head>
+                <meta charset="utf-8">
+                <title>ユーザー名とパスワードの変更</title>
+                <link rel="stylesheet" href="{{ url_for('static', filename='stylesheet.css') }}">
+                <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+                <meta name="viewport" content="width=device-width, initial-scale=1" />
+                <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
+        </head>
+        
+        <div class="header">
+                <div class="header-list">
+                        <ul>
+                                <form method="POST" action="/"><li><button class="button1" align="center" type="type" value="main">Channel334</button></li></form>
+                                <form method="POST" action="/logout"><li><button class="button1" align="center" type="type" value="Log Out">ログアウト</button></li></form>
+                                <form method="POST" action="/gomypage"><li><button class="button1" align="center"type="type" name="mypage" value="mypage">{{username}}</button></li></form>
+                                <form method="POST>" action="/gonotifications"><li><button class="button1" align="center" type="type" name="mypage" value="notifications">通知({{notifynum}})</button></li></form>
+                                <form method="POST" action="/searchall">
+                                   <div class="cp_iptxt">
+                                                <label class="ef">
+                                                <li><input  class="un " type="text" name="search" placeholder="キーワードで検索"></li>
+                                                <li><button class="button1" align="center" type="text" name="submit">検索</button></li>
+                                        </label>
+                                   
+                                </div>
+                               </form>
+                        </ul>
+                </div>
+               
+        
+</div>
+<button class="button5" align="center" type="type" name="newtag" value="newtag">ユーザー名とパスワードの変更</button>  
+        
+<p class="bigtitle" align="center">現在のユーザー名:{{username}}</p><br>
+        
+        <form method="post" action="/changeusersettings" enctype="multipart/form-data">
+            <p class="bigtitle" align="center">{{error}}</p><br>
+            
+            <p class="bigtitle" align="center">新しいユーザー名:</p><br> <input class="inputtitle" align="center" type="text" name="username" value={{username}} /><br />
+            <p class="bigtitle" align="center">新しいパスワード</p><br><input class="inputtitle" align="center" type="password" name="password" value={{password}} /><br />
+            <button class="button2" align="center" type="text" name="action" >更新</button>
+            
+            
+        </form>
+</html>

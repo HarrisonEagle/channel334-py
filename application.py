@@ -252,6 +252,7 @@ def is_user_exist():
 
 @app.route('/opentag',methods = ['POST','GET'])
 def opentag():
+    loadfile()
     ttls = []
     times = []
     i = 0
@@ -354,6 +355,7 @@ def savefile():
 
 @app.route('/gomypage',methods = ['POST','GET'])
 def gomypage():
+    loadfile()
     tagname = []
     threadname = []
     time = [] 
@@ -444,6 +446,7 @@ def sendnewcomment():
 
 @app.route('/jump',methods = ['POST','GET'])
 def jump():
+    loadfile()
     index = int(request.form['action']) - 1
     tagindex = int(request.form['tagindex']) 
     username = []
@@ -471,7 +474,7 @@ def jump():
 
 @app.route('/jump2',methods = ['POST','GET'])
 def jump2():
-    
+    loadfile()
     tagindex = int(indexnum.ntagindex)
     index = int(indexnum.nthreadindex)
     print(tagindex)
@@ -666,6 +669,7 @@ def sendreply():
 
 @app.route('/gonotifications',methods = ['POST','GET'])
 def gonotifications():
+    loadfile()
     notifications =  []
     for noti in datasystem.userdata[int(session['userid'])].notification:
         notifications.insert(0,noti.replycontent)
@@ -736,6 +740,7 @@ def searchall():
 
 @app.route('/openthread',methods = ['POST','GET'])
 def openthread():
+    loadfile()
     title = request.form['action']
     tagindex = 0
     threadindex = 0

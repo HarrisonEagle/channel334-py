@@ -8,6 +8,7 @@ import datetime
 import boto3
 import pickle
 import cloudpickle
+import imghdr
 from werkzeug.utils import secure_filename
 
 class Reply:
@@ -165,8 +166,7 @@ app.config['TRAP_BAD_REQUEST_ERRORS'] = True
 app.config['SECRET_KEY'] = 'The secret key which ciphers the cookie'
 app.config.from_object("config")
 threaderr = ""
-username = None
-userid = -1
+
 
 @app.before_first_request
 def execute_this():
@@ -307,6 +307,10 @@ def sendfirstcomment():
         savedir = os.path.abspath(os.path.dirname(__file__)) + app.config['UPLOAD_FOLDER'] + img_file.filename
         file_name=savedir
         img_file.save(savedir)
+        imagetype = imghdr.what(str(file_name))
+        if imagetype == None:
+            os.remove(file_name)
+            return "Not Image File!"
     firstcomment = Reply(usrname,userid,-1,firstcomment,userip,timenow,imgfilename,0)
     mypost = Myposts(timenow,tagindex,0,0,0,firstcomment.comment)
     datasystem.userdata[int(session['userid'])].mypost.insert(0,mypost)
@@ -413,9 +417,20 @@ def sendnewcomment():
     imgfilename = ""
     if img_file:
         imgfilename = secure_filename(img_file.filename)
+        
+        
+
         savedir = os.path.abspath(os.path.dirname(__file__)) + app.config['UPLOAD_FOLDER'] + img_file.filename
         file_name=savedir
         img_file.save(savedir)
+
+        imagetype = imghdr.what(str(file_name))
+        if imagetype == None:
+            os.remove(file_name)
+            indexnum.ntagindex = tagindex
+            indexnum.nthreadindex = threadindex
+            indexnum.threaderr = "Not Image File!"
+            return redirect('/jump2')
             
 
     NewReply = Reply(usrname,userindex,-1,newcomment,userip,timenow,imgfilename,0)
@@ -630,12 +645,21 @@ def sendreply():
     imgfilename = ""
     if img_file:
         imgfilename = secure_filename(img_file.filename)
+        
+
         savedir = os.path.abspath(os.path.dirname(__file__)) + app.config['UPLOAD_FOLDER'] + img_file.filename
         file_name=savedir
         img_file.save(savedir)
+        imagetype = imghdr.what(str(file_name))
+        if imagetype == None:
+            os.remove(file_name)
+            indexnum.ntagindex = tagindex
+            indexnum.nthreadindex = threadindex
+            indexnum.threaderr = "Not Image File!"
+            return redirect('/jump2')
             
 
-    NewReply = Reply(usrname,userid,replyuserindex,newcomment,userip,timenow,imgfilename,0)
+    NewReply = Reply(usrname,int(session['userid']),replyuserindex,newcomment,userip,timenow,imgfilename,0)
     datasystem.database[tagindex].taglist[threadindex].replylist.append(NewReply)
     #add Notification to replied user
     notifycontent = timenow+' '+usrname+'さんが返信しました:'+newcomment
@@ -720,13 +744,15 @@ def searchintag():
 
 @app.route('/searchall',methods = ['POST','GET'])
 def searchall():
+    slist.searcharray = []
     word = request.form['search']
     results = []
     resulttagindex = []
     resultthreadindex = []
-
+     
     tagindex = 0
-    threadindex = 0
+         
+    
     for tags in datasystem.database:
         threadindex = 0
         for thread in tags.taglist:
@@ -736,11 +762,11 @@ def searchall():
                 resultthreadindex.append(int(threadindex))
                 result = Search(int(tagindex),int(threadindex))
                 slist.searcharray.append(result)
+            threadindex+= 1
+        tagindex += 1
                 
             
-            threadindex+=1
-        tagindex+=1
-    
+           
 
 
     return render_template('search.html',word=word,tagname='all',results=zip(results,resulttagindex,resultthreadindex),username=session['username'],notifynum = len(datasystem.userdata[int(session['userid'])].notification))
@@ -749,11 +775,9 @@ def searchall():
 def openthread():
     loadfile()
     title = request.form['action']
-    tagindex = 0
-    threadindex = 0
     index = int(request.form['action']) - 1
-    indexnum.ntagindex = slist.searcharray[index].tagindex
-    indexnum.nthreadindex = slist.searcharray[index].threadindex
+    indexnum.ntagindex = int(slist.searcharray[index].tagindex)
+    indexnum.nthreadindex = int(slist.searcharray[index].threadindex)
       
 
                 

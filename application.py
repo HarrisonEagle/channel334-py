@@ -691,6 +691,7 @@ def opennotifications():
     indexnum.nthreadindex = int(datasystem.userdata[int(session['userid'])].notification[notifyindex].threadindex)
     datasystem.userdata[int(session['userid'])].notification.pop(notifyindex)
     
+    savefile()
 
     return redirect('/jump2')
 

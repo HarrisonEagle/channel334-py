@@ -29,13 +29,14 @@
                 </div>
 
     <button class="button5" type="text" name="action" >'{{word}}'の検索結果</button>
-    <form method="post" action="/openthread" enctype="multipart/form-data">
+    
     {% for title,tagindex2,threadindex2 in results %}
-                <button class="button2" type="text" name="action" value = {{title}}>{{title}}</button>
-                
+    <form method="post" action="/openthread" enctype="multipart/form-data">
+                <button class="button2" type="text" name="action" value = {{loop.index}}>{{title}}</button>
+        </form>
     {% endfor %}
     
-</form>
+
                
         
 </div>

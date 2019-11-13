@@ -78,9 +78,13 @@ class Datasystem:
         self.database = database
         self.userdata = userdata
 
+class Searchlist:
+    def __init__(self,searcharray):
+        self.searcharray = searcharray
 
 indexnum = IndexNum()
 datasystem = Datasystem([],[])
+slist = Searchlist([])
 
 def loadfile():
     class Reply:
@@ -727,8 +731,10 @@ def searchall():
         for thread in tags.taglist:
             if word in thread.title:
                 results.append(thread.title)
-                resulttagindex.append(str(tagindex))
-                resultthreadindex.append(str(threadindex))
+                resulttagindex.append(int(tagindex))
+                resultthreadindex.append(int(threadindex))
+                result = Search(int(tagindex),int(threadindex))
+                slist.searcharray.append(result)
                 
             
             threadindex+=1
@@ -744,14 +750,10 @@ def openthread():
     title = request.form['action']
     tagindex = 0
     threadindex = 0
-    for tags in datasystem.database:
-        threadindex = 0
-        for thread in tags.taglist:
-            if title == thread.title:
-                indexnum.ntagindex = tagindex
-                indexnum.nthreadindex = threadindex
-            threadindex+=1
-        tagindex+=1
+    index = int(request.form['action']) - 1
+    indexnum.ntagindex = slist.searcharray[index].tagindex
+    indexnum.nthreadindex = slist.searcharray[index].threadindex
+      
 
                 
     

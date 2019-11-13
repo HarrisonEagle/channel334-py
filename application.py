@@ -303,16 +303,16 @@ def sendfirstcomment():
     imgfilename = ""
     userid = session['userid']
     if img_file:
-        imgfilename = secure_filename(img_file.filename)
         DIR = os.path.abspath(os.path.dirname(__file__)) + app.config['UPLOAD_FOLDER'] 
         filelen = len([name for name in os.listdir(DIR) if os.path.isfile(os.path.join(DIR, name))])
-        savedir = os.path.abspath(os.path.dirname(__file__)) + app.config['UPLOAD_FOLDER'] +str(filelen)+ img_file.filename
+        imgfilename =  str(filelen)+secure_filename(img_file.filename)
+        
+        savedir = os.path.abspath(os.path.dirname(__file__)) + app.config['UPLOAD_FOLDER']+ img_file.filename
         file_name=savedir
         img_file.save(savedir)
         imagetype = imghdr.what(str(file_name))
         if imagetype == None:
             os.remove(file_name)
-            return "Not Image File!"
     firstcomment = Reply(usrname,userid,-1,firstcomment,userip,timenow,imgfilename,0)
     mypost = Myposts(timenow,tagindex,0,0,0,firstcomment.comment)
     datasystem.userdata[int(session['userid'])].mypost.insert(0,mypost)
@@ -418,12 +418,13 @@ def sendnewcomment():
     img_file = request.files['img_file']
     imgfilename = ""
     if img_file:
-        imgfilename = secure_filename(img_file.filename)
-        
         DIR = os.path.abspath(os.path.dirname(__file__)) + app.config['UPLOAD_FOLDER'] 
         filelen = len([name for name in os.listdir(DIR) if os.path.isfile(os.path.join(DIR, name))])
 
-        savedir = os.path.abspath(os.path.dirname(__file__)) + app.config['UPLOAD_FOLDER'] +str(filelen)+ img_file.filename
+        imgfilename = str(filelen) + secure_filename(img_file.filename)
+        
+        
+        savedir = os.path.abspath(os.path.dirname(__file__)) + app.config['UPLOAD_FOLDER'] + img_file.filename
         file_name=savedir
         img_file.save(savedir)
 
@@ -647,11 +648,12 @@ def sendreply():
     img_file = request.files['img_file']
     imgfilename = ""
     if img_file:
-        imgfilename = secure_filename(img_file.filename)
         DIR = os.path.abspath(os.path.dirname(__file__)) + app.config['UPLOAD_FOLDER'] 
         filelen = len([name for name in os.listdir(DIR) if os.path.isfile(os.path.join(DIR, name))])
-
-        savedir = os.path.abspath(os.path.dirname(__file__)) + app.config['UPLOAD_FOLDER'] + str(filelen) + img_file.filename
+        
+        imgfilename =  str(filelen) + secure_filename(img_file.filename)
+        
+        savedir = os.path.abspath(os.path.dirname(__file__)) + app.config['UPLOAD_FOLDER']+ img_file.filename
         file_name=savedir
         img_file.save(savedir)
         imagetype = imghdr.what(str(file_name))

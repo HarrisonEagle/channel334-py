@@ -307,7 +307,7 @@ def sendfirstcomment():
         filelen = len([name for name in os.listdir(DIR) if os.path.isfile(os.path.join(DIR, name))])
         imgfilename =  str(filelen)+secure_filename(img_file.filename)
         
-        savedir = os.path.abspath(os.path.dirname(__file__)) + app.config['UPLOAD_FOLDER']+ img_file.filename
+        savedir = os.path.abspath(os.path.dirname(__file__)) + app.config['UPLOAD_FOLDER']+ imgfilename
         file_name=savedir
         img_file.save(savedir)
         imagetype = imghdr.what(str(file_name))
@@ -424,7 +424,7 @@ def sendnewcomment():
         imgfilename = str(filelen) + secure_filename(img_file.filename)
         
         
-        savedir = os.path.abspath(os.path.dirname(__file__)) + app.config['UPLOAD_FOLDER'] + img_file.filename
+        savedir = os.path.abspath(os.path.dirname(__file__)) + app.config['UPLOAD_FOLDER'] + imgfilename
         file_name=savedir
         img_file.save(savedir)
 
@@ -653,7 +653,7 @@ def sendreply():
         
         imgfilename =  str(filelen) + secure_filename(img_file.filename)
         
-        savedir = os.path.abspath(os.path.dirname(__file__)) + app.config['UPLOAD_FOLDER']+ img_file.filename
+        savedir = os.path.abspath(os.path.dirname(__file__)) + app.config['UPLOAD_FOLDER']+ imgfilename
         file_name=savedir
         img_file.save(savedir)
         imagetype = imghdr.what(str(file_name))

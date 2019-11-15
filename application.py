@@ -10,6 +10,7 @@ import pickle
 import cloudpickle
 import imghdr
 from werkzeug.utils import secure_filename
+from botocore.exceptions import ClientError
 
 class Reply:
     def __init__(self,username,userid,replyid,comment,userip,time,imageurl,repnum):
@@ -313,6 +314,10 @@ def sendfirstcomment():
         imagetype = imghdr.what(str(file_name))
         if imagetype == None:
             os.remove(file_name)
+            return "Not Image File"
+        s3 = boto3.resource('s3') 
+        bucket = s3.Bucket('channel334storage')
+        bucket.upload_file(savedir, imgfilename)
     firstcomment = Reply(usrname,userid,-1,firstcomment,userip,timenow,imgfilename,0)
     mypost = Myposts(timenow,tagindex,0,0,0,firstcomment.comment)
     datasystem.userdata[int(session['userid'])].mypost.insert(0,mypost)
@@ -435,6 +440,9 @@ def sendnewcomment():
             indexnum.nthreadindex = threadindex
             indexnum.threaderr = "Not Image File!"
             return redirect('/jump2')
+        s3 = boto3.resource('s3') 
+        bucket = s3.Bucket('channel334storage')
+        bucket.upload_file(savedir, imgfilename)
             
 
     NewReply = Reply(usrname,userindex,-1,newcomment,userip,timenow,imgfilename,0)
@@ -491,6 +499,15 @@ def jump():
     i = 0
     while i!= len(datasystem.database[tagindex].taglist[index].replylist):
         filenames.append(datasystem.database[tagindex].taglist[index].replylist[i].imageurl)
+        filedir = os.path.abspath(os.path.dirname(__file__)) + app.config['UPLOAD_FOLDER'] + str(datasystem.database[tagindex].taglist[index].replylist[i].imageurl)
+        if os.path.exists(filedir) == False:
+            s3 = boto3.resource('s3') 
+            bucket = s3.Bucket('channel334storage')
+            try:
+                bucket.download_file(str(datasystem.database[tagindex].taglist[index].replylist[i].imageurl), filedir)
+            except ClientError as e:
+                print(e,file=sys.stdout)
+            
         i+=1
     i = 0
     return render_template('thread.html',title = datasystem.database[tagindex].taglist[index].title,comment_products=zip(username,times,comments,filenames),threadindex=index,tagindex = tagindex,threadindex2=index,tagindex2=tagindex,threadindex3=index,tagindex3=tagindex,username=session['username'],notifynum = len(datasystem.userdata[int(session['userid'])].notification))
@@ -521,6 +538,18 @@ def jump2():
     i = 0
     while i!= len(datasystem.database[tagindex].taglist[index].replylist):
         filenames.append(datasystem.database[tagindex].taglist[index].replylist[i].imageurl)
+        filedir = os.path.abspath(os.path.dirname(__file__)) + app.config['UPLOAD_FOLDER'] + str(datasystem.database[tagindex].taglist[index].replylist[i].imageurl)
+        if os.path.exists(filedir) == False:
+            s3 = boto3.resource('s3') 
+            bucket = s3.Bucket('channel334storage')
+            if os.path.exists(filedir) == False:
+            s3 = boto3.resource('s3') 
+            bucket = s3.Bucket('channel334storage')
+            try:
+                bucket.download_file(str(datasystem.database[tagindex].taglist[index].replylist[i].imageurl), filedir)
+            except ClientError as e:
+                print(e,file=sys.stdout)
+
         i+=1
     i = 0
     return render_template('thread.html',title = datasystem.database[tagindex].taglist[index].title,comment_products=zip(username,times,comments,filenames),threadindex=index,tagindex = tagindex,threadindex2=index,tagindex2=tagindex,tagindex3=tagindex,threadindex3=index,error = indexnum.threaderr,username=session['username'],notifynum = len(datasystem.userdata[int(session['userid'])].notification))
@@ -663,6 +692,10 @@ def sendreply():
             indexnum.nthreadindex = threadindex
             indexnum.threaderr = "Not Image File!"
             return redirect('/jump2')
+        s3 = boto3.resource('s3') 
+        bucket = s3.Bucket('channel334storage')
+        bucket.upload_file(savedir, imgfilename)
+        
             
 
     NewReply = Reply(usrname,int(session['userid']),replyuserindex,newcomment,userip,timenow,imgfilename,0)
@@ -694,6 +727,8 @@ def sendreply():
     i = 0
     while i!= len(datasystem.database[tagindex].taglist[threadindex].replylist):
         filenames.append(datasystem.database[tagindex].taglist[threadindex].replylist[i].imageurl)
+
+        
         i+=1
     #return render_template('thread.html',title = datasystem.database[tagindex].taglist[threadindex].title,comment_products=zip(username, times,comments,filenames),threadindex = threadindex,tagindex=tagindex)
     indexnum.ntagindex = tagindex

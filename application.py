@@ -542,9 +542,6 @@ def jump2():
         if os.path.exists(filedir) == False:
             s3 = boto3.resource('s3') 
             bucket = s3.Bucket('channel334storage')
-            if os.path.exists(filedir) == False:
-            s3 = boto3.resource('s3') 
-            bucket = s3.Bucket('channel334storage')
             try:
                 bucket.download_file(str(datasystem.database[tagindex].taglist[index].replylist[i].imageurl), filedir)
             except ClientError as e:

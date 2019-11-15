@@ -499,14 +499,7 @@ def jump():
     i = 0
     while i!= len(datasystem.database[tagindex].taglist[index].replylist):
         filenames.append(datasystem.database[tagindex].taglist[index].replylist[i].imageurl)
-        filedir = os.path.abspath(os.path.dirname(__file__)) + app.config['UPLOAD_FOLDER'] + str(datasystem.database[tagindex].taglist[index].replylist[i].imageurl)
-        if os.path.exists(filedir) == False:
-            s3 = boto3.resource('s3') 
-            bucket = s3.Bucket('channel334storage')
-            try:
-                bucket.download_file(str(datasystem.database[tagindex].taglist[index].replylist[i].imageurl), filedir)
-            except ClientError as e:
-                print(e,file=sys.stdout)
+        
             
         i+=1
     i = 0
@@ -538,14 +531,7 @@ def jump2():
     i = 0
     while i!= len(datasystem.database[tagindex].taglist[index].replylist):
         filenames.append(datasystem.database[tagindex].taglist[index].replylist[i].imageurl)
-        filedir = os.path.abspath(os.path.dirname(__file__)) + app.config['UPLOAD_FOLDER'] + str(datasystem.database[tagindex].taglist[index].replylist[i].imageurl)
-        if os.path.exists(filedir) == False:
-            s3 = boto3.resource('s3') 
-            bucket = s3.Bucket('channel334storage')
-            try:
-                bucket.download_file(str(datasystem.database[tagindex].taglist[index].replylist[i].imageurl), filedir)
-            except ClientError as e:
-                print(e,file=sys.stdout)
+        
 
         i+=1
     i = 0
